@@ -1,41 +1,97 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 
-function Page(){
+function Page() {
+    const [conductedClasses, setConductedClasses] = useState("");
+    const [presentClasses, setPresentClasses] = useState("");
+    const [requiredPercentage, setRequiredPercentage] = useState(75);
+    const [result, setResult] = useState("");
+
+    const calculateAttendance = () => {
+        const conducted = parseInt(conductedClasses);
+        const present = parseInt(presentClasses);
+        
+        if (isNaN(conducted) || isNaN(present) || conducted <= 0) {
+            setResult("Please enter valid numbers for classes conducted and classes present.");
+            return;
+        }
+
+        const currentPercentage = (present / conducted) * 100;
+        const requiredClasses = (requiredPercentage / 100) * conducted;
+        
+        if (currentPercentage >= requiredPercentage) {
+            const maxBunks = Math.floor((present - (requiredPercentage / 100) * conducted) / (1 - requiredPercentage / 100));
+            setResult(`You can bunk ${maxBunks} more classes and still maintain ${requiredPercentage}% attendance.`);
+        } else {
+            const requiredToAttend = Math.ceil(requiredClasses - present);
+            setResult(`You need to attend ${requiredToAttend} more classes to reach ${requiredPercentage}% attendance.`);
+        }
+    };
+
     return (
         <>
-        <TopContainer>
-            <div className="box">
-                <h1>Let's Bunk</h1>
+            <TopContainer>
+                <div className="box">
+                    <h1>Let's Bunk</h1>
 
-                <div className="inputValue1">
-                    <p>Classes Conducted</p>
-                    <input type="text" placeholder="Total Classes Conducted" />
-                </div>
-
-                <div className="inputValue2">
-                    <p>Classes Present</p>
-                    <input type="text" placeholder="Total Classes Present" />
-                </div>
-
-                <div className="lastBox">
-                    <p>Required Percentage</p>
-                    <div className="percentage">
-                        <li>75%</li>
-                        <li>80%</li>
-                        <li>85%</li>
-                        <li>90%</li>
+                    <div className="inputValue1">
+                        <p>Classes Conducted</p>
+                        <input
+                            type="text"
+                            placeholder="Total Classes Conducted"
+                            value={conductedClasses}
+                            onChange={(e) => setConductedClasses(e.target.value)}
+                        />
                     </div>
+
+                    <div className="inputValue2">
+                        <p>Classes Present</p>
+                        <input
+                            type="text"
+                            placeholder="Total Classes Present"
+                            value={presentClasses}
+                            onChange={(e) => setPresentClasses(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="lastBox">
+                        <p>Required Percentage</p>
+                        <div className="percentage">
+                            <li
+                                onClick={() => setRequiredPercentage(75)}
+                                className={requiredPercentage === 75 ? "selected" : ""}
+                            >
+                                75%
+                            </li>
+                            <li
+                                onClick={() => setRequiredPercentage(80)}
+                                className={requiredPercentage === 80 ? "selected" : ""}
+                            >
+                                80%
+                            </li>
+                            <li
+                                onClick={() => setRequiredPercentage(85)}
+                                className={requiredPercentage === 85 ? "selected" : ""}
+                            >
+                                85%
+                            </li>
+                            <li
+                                onClick={() => setRequiredPercentage(90)}
+                                className={requiredPercentage === 90 ? "selected" : ""}
+                            >
+                                90%
+                            </li>
+                        </div>
+                    </div>
+                    <button onClick={calculateAttendance}>Submit</button>
+                    <div className="last">{result}</div>
                 </div>
-                <button>Submit</button>
-                <div className="last">Hello Dear Students💪</div>
-            </div>
-        </TopContainer>
+            </TopContainer>
         </>
     );
 }
 
-export default Page
-
+export default Page;
 
 const TopContainer = styled.div`
     max-width: 500px;
@@ -98,7 +154,7 @@ const TopContainer = styled.div`
 
     .box .lastBox .percentage{
         display: flex;
-        flex-direction:row;
+        flex-direction: row;
         list-style-type: none;
         gap: 12px;
         margin-left: 10px;
@@ -110,7 +166,7 @@ const TopContainer = styled.div`
         padding: 6px;
     }
 
-    .box .lastBox .percentage li:active{
+    .box .lastBox .percentage li.selected{
         background-color: green;
     }
 
@@ -130,5 +186,4 @@ const TopContainer = styled.div`
         font-weight: 700;
         font-size: 22px;
     }
-
 `;
