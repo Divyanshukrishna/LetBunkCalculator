@@ -17,7 +17,7 @@ function HomePage() {
         type="text" 
         placeholder="Enter the Name" 
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => setName(e.target.value)} required
       />
       <button onClick={handleSubmit}>Submit</button>
     </FirstPageContainer>
