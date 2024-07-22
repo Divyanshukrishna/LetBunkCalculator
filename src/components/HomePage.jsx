@@ -17,7 +17,7 @@ function HomePage() {
         <div className="input-enter">
           <input 
             type="text" 
-            placeholder="Enter the Name" 
+            placeholder="Enter your Name" 
             value={name}
             onChange={(e) => setName(e.target.value)} 
             required
