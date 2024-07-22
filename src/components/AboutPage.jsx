@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 function AboutPage() {
   const location = useLocation();
-  const { name } = location.state || { name: "Guest" }; // Fallback to "Guest" if no name is provided
+  const { name } = location.state || { name: "Guest" }; 
 
   const [conductedClasses, setConductedClasses] = useState("");
   const [presentClasses, setPresentClasses] = useState("");
@@ -36,7 +36,7 @@ function AboutPage() {
     <>
       <TopContainer>
         <div className="box">
-          <h1>Welcome, {name}!</h1>
+          <h1>Welcome,{name}!</h1>
           <h2>Let's Bunk</h2>
 
           <div className="inputValue1">
